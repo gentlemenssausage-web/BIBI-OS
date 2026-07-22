@@ -16,26 +16,15 @@ jobs:
       - name: Download Ubuntu ISO
         run: wget -q "https://releases.ubuntu.com/jammy/ubuntu-22.04.5-desktop-amd64.iso" -O ubuntu.iso
 
-      - name: Extract and modify ISO
+      - name: Extract ISO
         run: |
           mkdir -p iso_work
           sudo mount -o loop ubuntu.iso /mnt
           sudo rsync -a /mnt/. iso_work/
           sudo umount /mnt
-          sudo sed -i 's/Ubuntu/BIBI OS/g' iso_work/.disk/info || true
-          sudo cp config/includes.chroot/usr/share/wallpapers/bibi.jpg iso_work/ || true
 
-      - name: Rebuild bootable ISO
-        run: |
-          sudo xorriso -as mkisofs \
-            -r -V "BIBI OS" \
-            -o bibi-os.iso \
-            -J -joliet-long \
-            -b boot/grub/i386-pc/eltorito.img \
-            -no-emul-boot -boot-load-size 4 -boot-info-table \
-            --efi-boot EFI/boot/bootx64.efi \
-            -efi-boot-part --efi-boot-image \
-            iso_work/
+      - name: List boot files
+        run: find iso_work/boot iso_work/EFI -type f 2>/dev/null || find iso_work -name "*.img" -o -name "*.efi" 2>/dev/null
 
       - name: Upload ISO
         uses: actions/upload-artifact@v4
