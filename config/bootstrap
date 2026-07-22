@@ -21,8 +21,8 @@ LB_BOOTSTRAP_FLAVOUR=""
 LB_BOOTSTRAP_KEYRING=""
 
 # $LB_DISTRIBUTION: select distribution to use
-# (Default: noble)
-LB_DISTRIBUTION="noble"
+# (Default: jammy)
+LB_DISTRIBUTION="jammy"
 
 # $LB_PARENT_DISTRIBUTION: select parent distribution to use
 # (Default: noble)
