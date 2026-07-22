@@ -19,7 +19,7 @@ jobs:
           echo -e "Package: syslinux-themes-ubuntu-oneiric\nPin: release *\nPin-Priority: -1\n\nPackage: gfxboot-theme-ubuntu\nPin: release *\nPin-Priority: -1" | sudo tee /etc/apt/preferences.d/block-packages
 
       - name: Build ISO
-        run: sudo lb build
+        run: sudo lb build --ignore-missing
 
       - name: Upload ISO
         uses: actions/upload-artifact@v4
