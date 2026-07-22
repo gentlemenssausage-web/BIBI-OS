@@ -33,7 +33,7 @@ jobs:
             -J -joliet-long \
             -b boot/grub/i386-pc/eltorito.img \
             -no-emul-boot -boot-load-size 4 -boot-info-table \
-            --efi-boot boot/grub/efi.img \
+            --efi-boot EFI/boot/bootx64.efi \
             -efi-boot-part --efi-boot-image \
             iso_work/
 
