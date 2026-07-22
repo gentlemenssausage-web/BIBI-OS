@@ -23,3 +23,12 @@ jobs:
         with:
           name: BIBI-OS
           path: "*.iso"
+
+      - name: Pre-configure apt
+        run: |
+          echo 'APT::Get::force-yes "true";' | sudo tee /etc/apt/apt.conf.d/90forceyes
+          sudo apt-get install -y equivs
+          equivs-control syslinux-fake
+          sed -i 's/Package:.*/Package: syslinux-themes-ubuntu-oneiric/' syslinux-fake
+          equivs-build syslinux-fake
+          sudo dpkg -i syslinux-themes-ubuntu-oneiric*.deb
