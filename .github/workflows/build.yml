@@ -11,24 +11,32 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y live-build equivs
+        run: sudo apt-get install -y xorriso squashfs-tools genisoimage isolinux
 
-      - name: Fake missing packages
-        run: |
-          for pkg in syslinux-themes-ubuntu-oneiric gfxboot-theme-ubuntu; do
-            equivs-control $pkg
-            sed -i "s/Package:.*/Package: $pkg/" $pkg
-            equivs-build $pkg
-            sudo dpkg -i ${pkg}_*.deb
-          done
+      - name: Download Ubuntu ISO
+        run: wget -q "https://releases.ubuntu.com/jammy/ubuntu-22.04.5-desktop-amd64.iso" -O ubuntu.iso
 
-      - name: Build ISO
-        run: sudo lb build
+      - name: Extract ISO
+        run: |
+          mkdir -p iso_extract squashfs_root
+          sudo mount -o loop ubuntu.iso iso_extract
+          sudo cp -a iso_extract/. iso_work/
+          sudo umount iso_extract
+
+      - name: Modify OS name
+        run: |
+          sudo sed -i 's/Ubuntu/BIBI OS/g' iso_work/.disk/info || true
+
+      - name: Copy branding files
+        run: |
+          sudo cp config/includes.chroot/usr/share/wallpapers/bibi.jpg iso_work/
+
+      - name: Rebuild ISO
+        run: |
+          sudo genisoimage -o bibi-os.iso -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -J -R -V "BIBI OS" iso_work/
 
       - name: Upload ISO
         uses: actions/upload-artifact@v4
         with:
           name: BIBI-OS
-          path: "*.iso"
+          path: bibi-os.iso
