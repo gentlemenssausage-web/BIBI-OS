@@ -1,0 +1,7 @@
+#!/bin/bash
+apt-get install -y equivs
+for pkg in syslinux-themes-ubuntu-oneiric gfxboot-theme-ubuntu; do
+    equivs-control /tmp/$pkg
+    sed -i "s/Package:.*/Package: $pkg/" /tmp/$pkg
+    cd /tmp && equivs-build $pkg && dpkg -i ${pkg}_*.deb
+done
