@@ -1,0 +1,7 @@
+wallpaper_image = Image("watermark.png");
+screen_width = Window.GetWidth();
+screen_height = Window.GetHeight();
+resized = wallpaper_image.Scale(300, 300);
+sprite = Sprite(resized);
+sprite.SetX(screen_width / 2 - 150);
+sprite.SetY(screen_height / 2 - 150);

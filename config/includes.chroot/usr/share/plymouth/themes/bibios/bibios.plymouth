@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=BIBI OS
+Description=BIBI OS Boot Screen
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/bibios
+ScriptFile=/usr/share/plymouth/themes/bibios/bibios.script

@@ -1,0 +1,3 @@
+#!/bin/bash
+mkdir -p /etc/skel/.config
+kwriteconfig5 --file /etc/skel/.config/plasma-org.kde.plasma.desktop-appletsrc --group Wallpaper --key Image "file:///usr/share/wallpapers/bibi.jpg"

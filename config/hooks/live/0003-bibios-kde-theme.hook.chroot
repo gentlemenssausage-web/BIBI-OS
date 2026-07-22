@@ -1,0 +1,19 @@
+#!/bin/bash
+mkdir -p /etc/skel/.config
+cat > /etc/skel/.config/kdeglobals << 'KEOF'
+[Colors:Button]
+BackgroundNormal=0,56,184
+ForegroundNormal=255,255,255
+
+[Colors:Window]
+BackgroundNormal=240,240,255
+ForegroundNormal=0,56,184
+
+[General]
+ColorScheme=BibiOS
+KEOF
+
+cat > /etc/skel/.config/plasma-org.kde.plasma.desktop-appletsrc << 'KEOF'
+[Containments][1][Applets][2][Configuration][General]
+icon=/usr/share/sddm/themes/bibios/start.jpg
+KEOF
