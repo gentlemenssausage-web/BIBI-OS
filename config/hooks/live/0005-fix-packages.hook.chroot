@@ -1,0 +1,2 @@
+#!/bin/bash
+apt-get remove -y syslinux-themes-ubuntu-oneiric gfxboot-theme-ubuntu 2>/dev/null || true
