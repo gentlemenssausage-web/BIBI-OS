@@ -13,13 +13,10 @@ jobs:
       - name: Install live-build
         run: sudo apt-get install -y live-build
 
-      - name: Fix broken packages
-        run: |
-          sudo mkdir -p chroot/etc/apt/preferences.d
-          echo -e "Package: syslinux-themes-ubuntu-oneiric\nPin: release *\nPin-Priority: -1\n\nPackage: gfxboot-theme-ubuntu\nPin: release *\nPin-Priority: -1" | sudo tee /etc/apt/preferences.d/block-packages
-
       - name: Build ISO
-        run: sudo lb config --binary-images iso-hybrid && sudo lb build --ignore-missing
+        run: |
+          sudo lb config --binary-images iso-hybrid
+          sudo lb build
 
       - name: Upload ISO
         uses: actions/upload-artifact@v4
