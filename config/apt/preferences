@@ -1,0 +1,7 @@
+Package: syslinux-themes-ubuntu-oneiric
+Pin: release *
+Pin-Priority: -1
+
+Package: gfxboot-theme-ubuntu
+Pin: release *
+Pin-Priority: -1
