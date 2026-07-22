@@ -10,25 +10,25 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install live-build
-        run: sudo apt-get install -y live-build
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y live-build equivs
+
+      - name: Fake missing packages
+        run: |
+          for pkg in syslinux-themes-ubuntu-oneiric gfxboot-theme-ubuntu; do
+            equivs-control $pkg
+            sed -i "s/Package:.*/Package: $pkg/" $pkg
+            equivs-build $pkg
+            sudo dpkg -i ${pkg}_*.deb
+          done
 
       - name: Build ISO
-        run: |
-          sudo lb config --binary-images iso-hybrid
-          sudo lb build
+        run: sudo lb build
 
       - name: Upload ISO
         uses: actions/upload-artifact@v4
         with:
           name: BIBI-OS
           path: "*.iso"
-
-      - name: Pre-configure apt
-        run: |
-          echo 'APT::Get::force-yes "true";' | sudo tee /etc/apt/apt.conf.d/90forceyes
-          sudo apt-get install -y equivs
-          equivs-control syslinux-fake
-          sed -i 's/Package:.*/Package: syslinux-themes-ubuntu-oneiric/' syslinux-fake
-          equivs-build syslinux-fake
-          sudo dpkg -i syslinux-themes-ubuntu-oneiric*.deb
